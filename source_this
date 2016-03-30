@@ -1,0 +1,15 @@
+
+
+export CLASSPATH=""
+
+DIRNAME=`dirname $1`
+TOMCAT_LIB="${DIRNAME}/../../lib"
+list=`ls -1 ${TOMCAT_LIB}`
+for jar in ${list}; do
+   export CLASSPATH="${CLASSPATH}:${TOMCAT_LIB}/${jar}"
+done
+
+export CLASSPATH="${CLASSPATH}:${DIRNAME}/WEB-INF/lib/rhino-1.7.7.1.jar:${DIRNAME}/servlets/detroit.jar:.:${DIRNAME}/WEB-INF"
+
+
+
