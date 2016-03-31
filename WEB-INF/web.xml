@@ -31,19 +31,23 @@
       <servlet-name>Detroit</servlet-name>
       <servlet-class>com.shutdown.Detroit</servlet-class>
       <load-on-startup>1</load-on-startup>
-
+      <init-param>
+        <param-name>mongohost</param-name>
+        <param-value>localhost:27017</param-value>
+      </init-param>
+      <init-param>
+        <param-name>dbname</param-name>
+        <param-value>detroit</param-value>
+      </init-param>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>Detroit</servlet-name>
-        <url-pattern>/api</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-        <welcome-file>index.xhtml</welcome-file>
-        <welcome-file>index.htm</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>
