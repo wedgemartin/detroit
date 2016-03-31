@@ -3,5 +3,6 @@
 //  and executed sequentially.  Be sure that your path is unique.
 
 routes = {
-  "/example": "ExamplesController.index"
+  "/examples/(.*)": { method: "ExamplesController.index", param_labels: [ 'something' ] },
+  "/example_two/(.*)": { method: "ExamplesController.index", param_labels: [ 'something_else' ] }
 }

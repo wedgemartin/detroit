@@ -67,18 +67,26 @@ function handleRequest(uri, params, writer) {
       writer.println("  Params: " + JSON.stringify(param_hash));
       writer.println("  API: " + API);
       writer.println("  Router: " + API.getRouter());
-      writer.println("  Routes are: " + JSON.stringify(routes));
+      writer.println("  Routes are: " + JSON.stringify(Object.keys(routes)));
    }
    // Now use the Router to handle passing the request off to the correct controller and method.
+   if ( param_hash['debug'] ) {
+      writer.println("  Checking routes..");
+   }
    for ( var route in routes ) {
       var controller = undefined;
       var regexp = new RegExp(route);
-      var check = regexp.exec(uri);
-      if ( param_hash['debug'] ) {
-         writer.println("  Executing: " + routes[route] + "(" + JSON.stringify(param_hash) + ")\n");
+      var matches = regexp.exec(uri);
+      if ( matches ) {  // We have a matching route. Check will contain params if they are specified.
+         if ( param_hash['debug'] ) {
+            writer.println("  Have a match: Executing: " + routes[route]['method'] + "(" + JSON.stringify(param_hash) + ")\n");
+         }
+         for ( var i = 0; i < matches.length; i++ ) {
+            param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
+         }
+         var output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
+         writer.println(JSON.stringify(output));
       }
-      var output = eval(routes[route] + "(" + JSON.stringify(param_hash) + ");");
-      writer.println(JSON.stringify(output));
    }
 }
 

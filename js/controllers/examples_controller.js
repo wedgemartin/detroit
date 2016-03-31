@@ -6,10 +6,9 @@
 ExamplesController = function() {
    return this;
 }
-  
 
-ExamplesController.prototype.index = function() {
-   return { "sample": "payload here" };
+ExamplesController.prototype.index = function(params) {
+   return params;
 }
 
 ExamplesController = new ExamplesController();

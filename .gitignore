@@ -1,0 +1,21 @@
+# Ignore puppet-managed config files
+/config/database.yml
+/config/redis.yml
+/config/idp.yml
+/config/ade.yml
+/config/es.yml
+/config/rabbit.yml
+/config/memcache.yml
+/config/edge_cms.yml
+/config/hostname.yml
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+/.bundle
+/db/*.sqlite3
+/log/*.log
+/log/*.log-*
+/log/*.log-*.gz
+/log/*.pid
+.*.sw?
