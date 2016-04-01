@@ -119,12 +119,9 @@ function handleRequest(uri, params, writer, command, post_data) {
              param_hash['post_data_type'] = post_data_type;
          }
          output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
-         // writer.println(JSON.stringify(output));
       }
    }
    if ( output ) {
-      // writer.println(JSON.stringify(output));
-      // writer.println(JSON.stringify(output));
       writer.println(output.toJSON());
    }
 }
