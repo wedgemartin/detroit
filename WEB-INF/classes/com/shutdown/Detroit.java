@@ -71,7 +71,6 @@ public class Detroit extends HttpServlet {
            PrintWriter out = response.getWriter();
            System.out.println(" Processing " + request.getMethod() + " request");
            if ( request.getMethod().equals("POST") ) {
-              System.out.println("In post...");
               StringBuffer buffer = new StringBuffer();
               BufferedReader reader = request.getReader();
               String line;
@@ -79,7 +78,6 @@ public class Detroit extends HttpServlet {
                   buffer.append(line);
               }
               String data = buffer.toString();
-              System.out.println("  DATA HERE IS: " + data);
               // Check to see if the data is in query param format so we can reload files if debug is passed in 
               try {
                  Map m = splitQuery(data);
@@ -98,14 +96,10 @@ public class Detroit extends HttpServlet {
                  System.out.println("Debug flag set to true. Rebuilding JS codebase.");
                  initDetroit();
               }
-              System.out.println("In get...");
               Object functionArgs[] = { request.getRequestURI(), request.getQueryString(), out, request.getMethod(), null };
               org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)jsObj;
               Object result = f.call(cx, scope, scope, functionArgs);
            }
-           // response.setContentType("text/html");
-           // response.setCharacterEncoding("UTF-8");
-           // out.println(report);
        }
     }
 
