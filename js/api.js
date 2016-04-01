@@ -58,13 +58,39 @@ function detroit_init(mongo) {
    API.setMongo(mongo);
 }
 
-function handleRequest(uri, params, writer) {
-   API.setWriter(writer);
-   var param_hash = API.parseParams(params);
+function handleRequest(uri, params, writer, command, post_data) {
+   API.setWriter(writer); // Be able to use the writer directly from controllers etc. Currently not used.
+   var param_hash = {};
+   var post_data_type = undefined;
+   if ( command == "POST" && post_data ) {
+      try {
+         post_data = JSON.parse(post_data);
+         post_data_type = 'json';
+      } catch(err) {
+         // Not JSON data, or is broken JSON...
+         //  Maybe they're standard params.
+         try { 
+            post_params = API.parseParams(post_data);
+            for ( var param in post_params ) {
+               param_hash[param] = post_params[param];
+            }
+            post_data = undefined; // Dont need to set this field then..
+         } catch(err2) {
+            // Just raw data...   Encode it so we can safely pass it off to the eval.
+            post_data = atob(params);
+            post_data_type = "base64data";
+         }
+      }
+   } else {
+      param_hash = API.parseParams(params);
+   }
    var routes = API.getRouter().listRoutes();
    if ( param_hash['debug'] ) {
       writer.println("  URI: " + uri);
       writer.println("  Params: " + JSON.stringify(param_hash));
+      if ( post_data ) {
+         writer.println("  Post data: " + post_data);
+      }
       writer.println("  API: " + API);
       writer.println("  Router: " + API.getRouter());
       writer.println("  Routes are: " + JSON.stringify(Object.keys(routes)));
@@ -77,14 +103,21 @@ function handleRequest(uri, params, writer) {
       var controller = undefined;
       var regexp = new RegExp(route);
       var matches = regexp.exec(uri);
-      if ( matches ) {  // We have a matching route. Check will contain params if they are specified.
+      if ( matches && routes[route]['command'] == command ) {  // We have a matching route. Check will contain params if they are specified.
          if ( param_hash['debug'] ) {
             writer.println("  Have a match: Executing: " + routes[route]['method'] + "(" + JSON.stringify(param_hash) + ")\n");
          }
-         for ( var i = 0; i < matches.length; i++ ) {
-            param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
+         if ( routes[route]['param_labels'] ) {
+            for ( var i = 0; i < matches.length; i++ ) {
+               param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
+            }
          }
-         var output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
+         var output = undefined;
+         if ( post_data ) {
+             param_hash['post_data'] = post_data;
+             param_hash['post_data_type'] = post_data_type;
+         }
+         output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
          writer.println(JSON.stringify(output));
       }
    }
