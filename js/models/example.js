@@ -13,10 +13,21 @@ Example.prototype = Object.create(Base.prototype);
 Example.prototype.constructor = Example;
 
 Example.prototype.toJSON = function() {
+   return JSON.stringify(this.asJson());
+}
+
+Example.prototype.asJson = function() {
    var jsonObj = new Object();
    jsonObj.name = this.getName();
    jsonObj.timestamp = new Date();
-   return JSON.stringify(jsonObj);
+   return jsonObj;
+}
+
+Example.prototype.asDocument = function() {
+   var doc = new org.bson.Document()
+      .append("name", this.getName())
+      .append("timestamp", org.mozilla.javascript.Context.jsToJava(new Date(), java.util.Date));
+   return doc;
 }
 
 Example.prototype.getName = function() {

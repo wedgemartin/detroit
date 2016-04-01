@@ -17,7 +17,8 @@ Base.prototype.update = function() {
 };
 
 Base.prototype.save = function() {
-  this.collection.insertOne(org.bson.Document.parse(this.toJSON()));
+  var doc = this.asDocument();
+  this.collection.insertOne(doc);
 };
 
 
