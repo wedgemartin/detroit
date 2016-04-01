@@ -4,5 +4,6 @@
 
 routes = {
   "/examples/(.*)": { command: "GET", method: "ExamplesController.index", param_labels: [ 'something' ] },
-  "/example_two/(.*)": { command: "POST", method: "ExamplesController.index", param_labels: [ 'something_else' ] }
+  "/example_two/(.*)": { command: "POST", method: "ExamplesController.index", param_labels: [ 'something_else' ] },
+  "/example": { command: "POST", method: "ExamplesController.create" }
 }

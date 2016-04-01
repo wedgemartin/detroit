@@ -53,13 +53,14 @@ DetroitAPI.prototype.parseParams = function(params) {
 
 API = new DetroitAPI();
 
-function detroit_init(mongo) {
+function detroit_init(mongo, out) {
    // Do initializationy stuff here..
+   out.println("Initializing detroit...");
    API.setMongo(mongo);
+   API.setWriter(out);
 }
 
 function handleRequest(uri, params, writer, command, post_data) {
-   API.setWriter(writer); // Be able to use the writer directly from controllers etc. Currently not used.
    var param_hash = {};
    var post_data_type = undefined;
    if ( command == "POST" && post_data ) {

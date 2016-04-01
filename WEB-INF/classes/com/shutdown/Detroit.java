@@ -28,23 +28,23 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.HiddenFileFilter;
 import org.mozilla.javascript.*;
 import com.mongodb.*;
+import com.mongodb.client.*;
 
 
 public class Detroit extends HttpServlet {
 
-    // public static final Context cx = Context.enter();
-    // public static final Scriptable scope = cx.initStandardObjects();
-    private static Context cx;
-    private static Scriptable scope;
+    public static Context cx;
+    public static Scriptable scope;
     private final static String scopeLabel = "Detroit";
     protected String mongo_host = null;
+    protected String mongo_db = null;
+    public static MongoDatabase mongo;
 
     public void init(ServletConfig servletConfig) throws ServletException {
-       cx = Context.enter();
-       scope = cx.initStandardObjects();
        System.out.println("Starting Detroit...");
-       this.mongo_host = servletConfig.getInitParameter("myParam");
-       parseFiles();
+       this.mongo_host = servletConfig.getInitParameter("mongohost");
+       this.mongo_db = servletConfig.getInitParameter("dbname");
+       System.out.println(" Mongo Database name set to: " + this.mongo_db);
        // Set up MongoDB handle.
        String mhost = "localhost";
        String mport = "27017";
@@ -55,11 +55,10 @@ public class Detroit extends HttpServlet {
        } else if ( this.mongo_host != null ) {
           mhost = this.mongo_host;
        }
-       MongoClient mongoClient = new MongoClient(mhost, Integer.parseInt(mport));
-       Object o = scope.get("detroit_init", scope);
-       Object functionArgs[] = { mongoClient };
-       org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)o;
-       Object result = f.call(cx, scope, scope, functionArgs);
+       System.out.println("  Opening connection to mongo: host is: " + mhost   + " port is: " + mport);
+       MongoClient mc = new MongoClient(mhost, Integer.parseInt(mport));
+       mongo = mc.getDatabase(this.mongo_db);
+       initDetroit();
     }
 
     @Override
@@ -86,7 +85,7 @@ public class Detroit extends HttpServlet {
                  Map m = splitQuery(data);
                  if ( m.get("debug") != null ) {
                     System.out.println("Debug flag set to true. Rebuilding JS codebase.");
-                    parseFiles();
+                    initDetroit();
                  }
               } catch ( Exception e ) {
                  // Nihil
@@ -97,7 +96,7 @@ public class Detroit extends HttpServlet {
            } else if ( request.getMethod().equals("GET") ) {
               if ( request.getParameter("debug") != null ) {
                  System.out.println("Debug flag set to true. Rebuilding JS codebase.");
-                 parseFiles();
+                 initDetroit();
               }
               System.out.println("In get...");
               Object functionArgs[] = { request.getRequestURI(), request.getQueryString(), out, request.getMethod(), null };
@@ -135,12 +134,20 @@ public class Detroit extends HttpServlet {
     }
     
 
-    private void parseFiles() {
+    private void initDetroit() {
+       cx = Context.enter();
+       scope = cx.initStandardObjects();
        try {
           FileReader fr = new FileReader("js/routes.js");
           cx.evaluateReader(scope, fr, scopeLabel, 1, null);
           FileReader fa = new FileReader("js/api.js");
           cx.evaluateReader(scope, fa, scopeLabel, 1, null);
+
+          Object o = scope.get("detroit_init", scope);
+          Object functionArgs[] = { mongo, System.out };
+          org.mozilla.javascript.Function function = (org.mozilla.javascript.Function)o;
+          Object result = function.call(cx, scope, scope, functionArgs);
+
           // Now iterate through the controllers, models, and lib dir.
           File controller_folder = new File("js/controllers");
           String[] controller_files = listFilesForFolder(controller_folder);
