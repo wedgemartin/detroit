@@ -100,6 +100,7 @@ function handleRequest(uri, params, writer, command, post_data) {
    if ( param_hash['debug'] ) {
       writer.println("  Checking routes..");
    }
+   var output = undefined;
    for ( var route in routes ) {
       var controller = undefined;
       var regexp = new RegExp(route);
@@ -113,14 +114,18 @@ function handleRequest(uri, params, writer, command, post_data) {
                param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
             }
          }
-         var output = undefined;
          if ( post_data ) {
              param_hash['post_data'] = post_data;
              param_hash['post_data_type'] = post_data_type;
          }
          output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
-         writer.println(JSON.stringify(output));
+         // writer.println(JSON.stringify(output));
       }
+   }
+   if ( output ) {
+      // writer.println(JSON.stringify(output));
+      // writer.println(JSON.stringify(output));
+      writer.println(output.toJSON());
    }
 }
 

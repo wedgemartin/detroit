@@ -13,8 +13,9 @@ Example.prototype = Object.create(Base.prototype);
 Example.prototype.constructor = Example;
 
 Example.prototype.toJSON = function() {
-   var jsonObj = {};
-   jsonObj['name'] = this.getName();
+   var jsonObj = new Object();
+   jsonObj.name = this.getName();
+   jsonObj.timestamp = new Date();
    return JSON.stringify(jsonObj);
 }
 
