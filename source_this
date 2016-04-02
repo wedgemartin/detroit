@@ -18,5 +18,7 @@ done
 
 
 
+export PATH=${PATH}:${DIRNAME}/bin
+
 
 

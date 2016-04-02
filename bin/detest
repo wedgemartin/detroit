@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+DIRNAME=`dirname $0`
+TESTFILE=$1
+JAVA_CMD="java"
+RHINO_MAIN="org.mozilla.javascript.tools.shell.Main"
+DETROIT_CLASS="WEB-INF/classes/com/shutdown/Detroit.class"
+export CLASSPATH="${CLASSPATH}:${DETROIT_CLASS}"
+
+echo "Running tests: ${TESTFILE}"
+
+if [ "x${CLASSPATH}" == "x" ]; then
+   echo "ERROR: CLASSPATH is not set. Run 'source ${DIRNAME}/../source_this' to set environment variables"
+   exit 1
+fi
+
+CHECK_INCLUDES=`cat ${TESTFILE} | grep \/\/include | awk '{print $2}'`
+INCLUDES="-f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js"
+for file in "${CHECK_INCLUDES}"; do
+   INCLUDES="${INCLUDES} -f ${file}"
+done
+  
+echo "Importing files: ${INCLUDES}"
+echo "Running command: ${JAVA_CMD} ${RHINO_MAIN} ${INCLUDES} ${TESTFILE}"
+
+${JAVA_CMD} ${RHINO_MAIN}  ${INCLUDES} ${TESTFILE}
+
