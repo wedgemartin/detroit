@@ -21,7 +21,7 @@ for file in "${CHECK_INCLUDES}"; do
 done
   
 echo "Importing files: ${INCLUDES}"
-echo "Running command: ${JAVA_CMD} ${RHINO_MAIN} ${INCLUDES} ${TESTFILE}"
+echo "Running command: ${JAVA_CMD} ${RHINO_MAIN} ${INCLUDES} -f ${TESTFILE} -f tests/finalize.js"
 
-${JAVA_CMD} ${RHINO_MAIN}  ${INCLUDES} ${TESTFILE}
+${JAVA_CMD} ${RHINO_MAIN}  ${INCLUDES} -f ${TESTFILE} -f tests/finalize.js
 

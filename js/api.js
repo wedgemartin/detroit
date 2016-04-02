@@ -2,9 +2,6 @@
 //  Main DetroitAPI methods for handling requests and passing them to controller methods.
 
 APIRouter = function() {
-  // var futils = new org.apache.commons.io.FileUtils();
-  // var file = new java.io.File("js/routes.js");
-  // this._routes = eval(futils.readFileToString(file, "UTF-8"));
   this._routes = routes;
   return this;
 }
