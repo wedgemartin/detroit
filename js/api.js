@@ -122,7 +122,7 @@ function handleRequest(uri, params, writer, command, post_data) {
       }
    }
    if ( output ) {
-      writer.println(output.toJSON());
+      writer.println(output);
    }
 }
 

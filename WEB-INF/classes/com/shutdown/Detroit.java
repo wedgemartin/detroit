@@ -175,6 +175,7 @@ public class Detroit extends HttpServlet {
        }
     }
 
+
     public static Map<String, String> splitQuery(String data) throws UnsupportedEncodingException {
        Map<String, String> query_pairs = new LinkedHashMap<String, String>();
        String[] pairs = data.split("&");

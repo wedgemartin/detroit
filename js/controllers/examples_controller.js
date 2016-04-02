@@ -8,19 +8,19 @@ ExamplesController = function() {
 }
 
 ExamplesController.prototype.index = function(params) {
-   return params;
+   var results = new Example().find();
+   return results.toString();
 }
 
 ExamplesController.prototype.create = function(params) {
    var example = undefined;
    var mongo = API.getMongo();
    var writer = API.getWriter();
-   // writer.println("  MONGO: " + JSON.stringify(mongo));
    if ( params['name'] ) {
       example = new Example(params['name']);
       example.save();
    }
-   return example;
+   return example.toJSON();
 }
 
 

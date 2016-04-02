@@ -9,6 +9,20 @@ Base = function(classname) {
 };
 
 
+Base.prototype.find = function(query) {
+  var docs = new Array();
+  writer = API.getWriter();
+  if ( query ) {
+     var iterable = this.collection.find(query);
+  } else {
+     var iterable = this.collection.find().iterator();
+     while ( iterable.hasNext() ) {
+         docs.push(iterable.next().toJson());
+     }
+  }
+  return docs;
+}
+
 Base.prototype.create = function() {
 };
 
