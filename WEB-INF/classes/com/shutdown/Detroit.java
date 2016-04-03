@@ -69,7 +69,6 @@ public class Detroit extends HttpServlet {
            System.out.println("Cannot find handleRequest function!");
        } else {
            PrintWriter out = response.getWriter();
-           System.out.println(" Processing " + request.getMethod() + " request");
            if ( request.getMethod().equals("POST") ) {
               StringBuffer buffer = new StringBuffer();
               BufferedReader reader = request.getReader();
