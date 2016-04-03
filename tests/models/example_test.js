@@ -5,11 +5,17 @@
 // 
 //include js/models/example.js
 
-var example = new Example();
+var example = new Example("testobj");
 
 
-tester.test( "Can instantiate example", function() {
+tester.addTest( "Can instantiate example", function() {
    tester.assertTrue( example !== undefined );
+});
+
+tester.addTest( "Can save and reload", function() {
+   example.save();
+   example.reload();
+   tester.assertTrue( example.id !== undefined );
 });
 
 

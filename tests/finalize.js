@@ -1,5 +1,9 @@
 
 
 
+tester.runTests();
+
 tester.printSummary();
+
+
 

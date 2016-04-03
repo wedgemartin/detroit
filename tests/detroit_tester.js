@@ -15,49 +15,58 @@ API.getWriter().println("DetroitTester: Beginning tests...");
 DetroitTester = function() {
   this._passed = new Array();
   this._failed = new Array();
+  this._tests = new Array();
 }
 
 
-DetroitTester.prototype.test = function(label, fref) {
-   API.getWriter().print(label);
-   try {
-      var result = (fref)();
-      if ( result ) {
-        this._passed.push( { label: label, error: err } );
-        API.getWriter().println(" passed");
-      } else {
-        this._failed.push( { label: label } );
-        API.getWriter().println(" FAILED");
-      } 
-   } catch(err) {
-      API.getWriter().println(label + " FAILED");
-      this._failed.push({ label: label, error: err } );
+
+DetroitTester.prototype.addTest = function(label, fref) {
+   this._tests.push([ label, fref ]);
+}
+
+
+DetroitTester.prototype.runTests = function() {
+   for ( var test in this._tests ) {
+      var label = this._tests[test][0];
+      var fref = this._tests[test][1];
+      try {
+         var result = fref();
+      } catch(err) {
+         if ( err == true ) {
+            this._passed.push( { label: label } );
+            API.getWriter().println("[32;1m" + label + ": Passed[0m");
+         } else {
+            API.getWriter().println("[31;1m" + label + ": FAILED[0m");
+            this._failed.push({ label: label, error: err } );
+         }
+      }
    }
 }
 
 DetroitTester.prototype.assertEqual = function(left, right) {
    if ( left == right ) {
-      return true;
+      throw true;
    } else {
-      return false;
+      throw false;
    }
 }
 
 DetroitTester.prototype.assertTrue = function(condition) {
    if ( condition == true ) {
-      return true;
+      throw true;
    } else {
-      return false;
+      throw false;
    }
 }
 
 DetroitTester.prototype.printSummary = function() {
    API.getWriter().println("Printing summary:");
-   API.getWriter().println("   Passed; " + this._passed.length);
-   API.getWriter().println("   Failed; " + this._failed.length);
+   API.getWriter().println("   Passed; [32;1m" + this._passed.length + "[0m");
+   API.getWriter().println("   Failed: [31;1m" + this._failed.length + "[0m");
    for ( var failure in this._failed ) {
       API.getWriter().println("       " + this._failed[failure]['label'] + " - failed with message: " + this._failed[failure]['error']);
    }
+   API.getWriter().println("");
 
 }
 
