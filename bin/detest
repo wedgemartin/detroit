@@ -6,6 +6,7 @@ JAVA_CMD="java"
 RHINO_MAIN="org.mozilla.javascript.tools.shell.Main"
 DETROIT_CLASS="WEB-INF/classes/com/shutdown/Detroit.class"
 export CLASSPATH="${CLASSPATH}:${DETROIT_CLASS}"
+export INCLUDES="-f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js"
 
 echo "Running tests: ${TESTFILE}"
 
@@ -14,14 +15,30 @@ if [ "x${CLASSPATH}" == "x" ]; then
    exit 1
 fi
 
-CHECK_INCLUDES=`cat ${TESTFILE} | grep \/\/include | awk '{print $2}'`
-INCLUDES="-f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js"
-for file in "${CHECK_INCLUDES}"; do
-   INCLUDES="${INCLUDES} -f ${file}"
-done
-  
-echo "Importing files: ${INCLUDES}"
-echo "Running command: ${JAVA_CMD} ${RHINO_MAIN} ${INCLUDES} -f ${TESTFILE} -f tests/finalize.js"
+function get_requirements {
+   CHECK_INCLUDES=`cat ${1} | grep \/\/include | awk '{print $2}'`
+   for file in "${CHECK_INCLUDES}"; do
+      if [ ! -z "${file}" ];then 
+        INCLUDES="${INCLUDES} -f ${file}"
+      fi
+   done
+}
 
-${JAVA_CMD} ${RHINO_MAIN}  ${INCLUDES} -f ${TESTFILE} -f tests/finalize.js
+  
+if [ -d "${TESTFILE}" ]; then
+  file_list=`find ${TESTFILE} -name '*.js'`
+  TESTFILE=""
+  while read -r ffile; do
+     TESTFILE="${TESTFILE} -f ${ffile}"
+     get_requirements ${ffile}
+   done <<< "${file_list}"
+else
+   get_requirements ${TESTFILE}
+   TESTFILE="-f ${TESTFILE}"
+fi
+
+TEST_RUN="${JAVA_CMD} ${RHINO_MAIN} ${INCLUDES} ${TESTFILE} -f tests/finalize.js"
+echo "Running command: ${TEST_RUN}"
+
+${TEST_RUN}
 
