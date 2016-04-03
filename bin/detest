@@ -17,11 +17,11 @@ fi
 
 function get_requirements {
    CHECK_INCLUDES=`cat ${1} | grep \/\/include | awk '{print $2}'`
-   for file in "${CHECK_INCLUDES}"; do
+   while read -r file; do
       if [ ! -z "${file}" ];then 
         INCLUDES="${INCLUDES} -f ${file}"
       fi
-   done
+   done <<< "${CHECK_INCLUDES}"
 }
 
   
