@@ -118,9 +118,7 @@ function handleRequest(uri, params, writer, command, post_data) {
          output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
       }
    }
-   if ( output ) {
-      writer.println(output.toString());
-   }
+   return output.toString();
 }
 
 
