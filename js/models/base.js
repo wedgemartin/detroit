@@ -22,6 +22,7 @@ Base.prototype.find = function(query) {
   return docs;
 }
 
+
 Base.prototype.create = function() {
 };
 
@@ -29,8 +30,11 @@ Base.prototype.update = function() {
 };
 
 Base.prototype.save = function() {
-  var doc = this.asDocument();
-  this.collection.insertOne(doc);
+   var doc = this.asDocument();
+   var resultObj = this.collection.updateOne( doc , new org.bson.Document("$set", doc), (new com.mongodb.client.model.UpdateOptions()).upsert(true));
+   if ( resultObj.getUpsertedId() ) {
+      this._id = resultObj.getUpsertedId();
+   }
 };
 
 

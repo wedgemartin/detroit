@@ -14,8 +14,7 @@ tester.addTest( "Can instantiate example", function() {
 
 tester.addTest( "Can save and reload", function() {
    example.save();
-   example.reload();
-   tester.assertTrue( example.id !== undefined );
+   tester.assertTrue( example._id !== undefined );
 });
 
 

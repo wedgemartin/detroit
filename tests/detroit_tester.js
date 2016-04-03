@@ -62,7 +62,11 @@ DetroitTester.prototype.assertTrue = function(condition) {
 DetroitTester.prototype.printSummary = function() {
    API.getWriter().println("Printing summary:");
    API.getWriter().println("   Passed; [32;1m" + this._passed.length + "[0m");
-   API.getWriter().println("   Failed: [31;1m" + this._failed.length + "[0m");
+   if ( this._failed.length == 0 ) {
+      API.getWriter().println("   Failed: " + this._failed.length);
+   } else {
+      API.getWriter().println("   Failed: [31;1m" + this._failed.length + "[0m");
+   }
    for ( var failure in this._failed ) {
       API.getWriter().println("       " + this._failed[failure]['label'] + " - failed with message: " + this._failed[failure]['error']);
    }
