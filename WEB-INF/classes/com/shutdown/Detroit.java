@@ -97,7 +97,12 @@ public class Detroit extends HttpServlet {
               }
               Object functionArgs[] = { request.getRequestURI(), request.getQueryString(), System.out, request.getMethod(), null };
               org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)jsObj;
-              out.println( f.call(cx, scope, scope, functionArgs));
+              try {
+                 out.println( f.call(cx, scope, scope, functionArgs));
+                 out.flush();
+              } catch ( Exception e ) {
+                 System.out.println("WARNING: Caught exception: " + e);
+              }
            }
        }
     }
