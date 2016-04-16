@@ -10,6 +10,40 @@ To get started, you will need to install Tomcat.  By cloning this repository int
 
 
 
+<p>
+
+<b>History</b>
+<p>
+Detroit started out as a 'fun' project at Badgeville to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  MongoDB, Rhino, and Apache Commons IO.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
+
+<p>
+<b>Testing</b>
+<p>
+
+As previously mentioned, tests are run via the 'detest' test harness. For example:
+<pre>
+🍺  detest tests/models/example_test.js 
+Running tests: tests/models/example_test.js
+Running command: java org.mozilla.javascript.tools.shell.Main -f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js -f js/models/example.js -f tests/models/example_test.js -f tests/finalize.js
+Apr 16, 2016 9:20:10 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+DetroitTester: Beginning tests...
+DetroitTester: Initializing tester...
+Can instantiate example: Passed
+Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:1, serverValue:41}] to localhost:27017
+Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 2, 3]}, minWireVersion=0, maxWireVersion=4, maxDocumentSize=16777216, roundTripTimeNanos=1955290}
+Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:2, serverValue:42}] to localhost:27017
+Can save and reload: Passed
+Printing summary:
+   Passed; 2
+   Failed: 0
+</pre>
+
+
+
 
 
 <p><br>
