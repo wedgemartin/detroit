@@ -34,6 +34,11 @@ Printing summary:
    Failed: 0
 </pre>
 
+<p>
+<b>Development</b>
+<p>
+
+Development and test cycles in Detroit are extremely fast; during development, hitting any API endpoint with the 'debug=true' flag set in the query params will cause all of the JS code to be re-evaluated on the fly. With the example JS files out of the box, the difference in API response time is 5-10ms per API call depending on the underlying hardware.
 
 
 
