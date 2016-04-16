@@ -25,20 +25,12 @@ As previously mentioned, tests are run via the 'detest' test harness. For exampl
 🍺  detest tests/models/example_test.js 
 Running tests: tests/models/example_test.js
 Running command: java org.mozilla.javascript.tools.shell.Main -f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js -f js/models/example.js -f tests/models/example_test.js -f tests/finalize.js
-Apr 16, 2016 9:20:10 AM com.mongodb.diagnostics.logging.JULLogger log
-INFO: Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
 DetroitTester: Beginning tests...
 DetroitTester: Initializing tester...
-Can instantiate example: Passed
-Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
-INFO: Opened connection [connectionId{localValue:1, serverValue:41}] to localhost:27017
-Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
-INFO: Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 2, 3]}, minWireVersion=0, maxWireVersion=4, maxDocumentSize=16777216, roundTripTimeNanos=1955290}
-Apr 16, 2016 9:20:11 AM com.mongodb.diagnostics.logging.JULLogger log
-INFO: Opened connection [connectionId{localValue:2, serverValue:42}] to localhost:27017
-Can save and reload: Passed
+<font color=#00ff00>Can instantiate example: Passed
+Can save and reload: Passed</font>
 Printing summary:
-   Passed; 2
+   Passed: 2
    Failed: 0
 </pre>
 
