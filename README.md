@@ -27,8 +27,8 @@ Running tests: tests/models/example_test.js
 Running command: java org.mozilla.javascript.tools.shell.Main -f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js -f js/models/example.js -f tests/models/example_test.js -f tests/finalize.js
 DetroitTester: Beginning tests...
 DetroitTester: Initializing tester...
-<font color=#00ff00>[34;1mCan instantiate example: Passed
-Can save and reload: Passed</font>[0m
+Can instantiate example: Passed
+Can save and reload: Passed</font>
 Printing summary:
    Passed: 2
    Failed: 0
