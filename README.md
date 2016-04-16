@@ -1,6 +1,5 @@
 # detroit
 
-Detroit
 
 The Detroit platform is a lightweight Model/Controller framework written in Java and JavaScript by way of the <a href='https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino'>Mozilla Rhino</a> Project. 
 This is not an MVC in that there is no mechanism for templating, though there may be a future addition.
@@ -52,29 +51,28 @@ Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
 
 <b>Detroit</b>
 <pre>
-🍺  httperf --server localhost --port 8080 --num-conns 100 --rate 200  --timeout 1 --uri /detroit/api/examples --num-calls=1
-httperf --timeout=1 --client=0/1 --server=localhost --port=8080 --uri=/detroit/api/examples --rate=200 --send-buffer=4096 --recv-buffer=16384 --num-conns=100 --num-calls=1
+🍺  httperf --timeout=1 --client=0/1 --server=localhost --port=8080 --uri=/detroit/api/examples --rate=300 --send-buffer=4096 --recv-buffer=16384 --num-conns=100 --num-calls=2
+httperf --timeout=1 --client=0/1 --server=localhost --port=8080 --uri=/detroit/api/examples --rate=300 --send-buffer=4096 --recv-buffer=16384 --num-conns=100 --num-calls=2
 Maximum connect burst length: 1
 
-Total: connections 100 requests 100 replies 100 test-duration 0.497 s
+Total: connections 100 requests 200 replies 200 test-duration 0.335 s
 
-Connection rate: 201.1 conn/s (5.0 ms/conn, <=1 concurrent connections)
-Connection time [ms]: min 1.3 avg 1.8 max 3.7 median 1.5 stddev 0.5
+Connection rate: 298.2 conn/s (3.4 ms/conn, <=4 concurrent connections)
+Connection time [ms]: min 2.2 avg 3.7 max 11.1 median 2.5 stddev 1.8
 Connection time [ms]: connect 0.1
-Connection length [replies/conn]: 1.000
+Connection length [replies/conn]: 2.000
 
-Request rate: 201.1 req/s (5.0 ms/req)
+Request rate: 596.5 req/s (1.7 ms/req)
 Request size [B]: 82.0
 
 Reply rate [replies/s]: min 0.0 avg 0.0 max 0.0 stddev 0.0 (0 samples)
-Reply time [ms]: response 1.6 transfer 0.0
-Reply size [B]: header 109.0 content 5242.0 footer 2.0 (total 5353.0)
-Reply status: 1xx=0 2xx=100 3xx=0 4xx=0 5xx=0
+Reply time [ms]: response 1.7 transfer 0.0
+Reply size [B]: header 108.0 content 5137.0 footer 1.0 (total 5246.0)
+Reply status: 1xx=0 2xx=200 3xx=0 4xx=0 5xx=0
 
-CPU time [s]: user 0.11 system 0.38 (user 21.5% system 76.5% total 98.0%)
-Net I/O: 1067.0 KB/s (8.7*10^6 bps)
+CPU time [s]: user 0.04 system 0.28 (user 12.4% system 84.1% total 96.5%)
+Net I/O: 3103.5 KB/s (25.4*10^6 bps)
 
 Errors: total 0 client-timo 0 socket-timo 0 connrefused 0 connreset 0
 Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
-
 </pre>
