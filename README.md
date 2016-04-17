@@ -14,7 +14,7 @@ To get started, you will need to install Tomcat.  By cloning this repository int
 
 <b>History</b>
 <p>
-Detroit started out as a 'fun' project at <a href='http://badgeville.com'>Badgeville</a> to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  MongoDB, Rhino, and Apache Commons IO.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
+Detroit started out as a 'fun' project at <a href='http://badgeville.com'>Badgeville</a> to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  <a href='http://mongodb.org'>MongoDB</a>, <a href='https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino'>Rhino</a>, and Apache <a href='https://commons.apache.org/proper/commons-io/'>Commons IO</a>.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
 
 
 <p>
@@ -27,7 +27,7 @@ After sourcing the 'source_this' file, in order to get started quickly, you can 
 <pre>
    bash$  detonate somename
 </pre>
-This will create a model, controller, and associate tests for the class 'somename' which can then be edited as needed.
+This will create a model, controller, and associated tests for the class 'somename' which can then be edited as needed.
 
 
 
