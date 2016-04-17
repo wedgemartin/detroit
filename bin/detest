@@ -26,7 +26,7 @@ function get_requirements {
 
   
 if [ -d "${TESTFILE}" ]; then
-  file_list=`find ${TESTFILE} -name '*.js'`
+  file_list=`find ${TESTFILE} -name '*.js' | grep -v finalize.js | grep -v detroit_tester.js`
   TESTFILE=""
   while read -r ffile; do
      TESTFILE="${TESTFILE} -f ${ffile}"

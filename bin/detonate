@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+
+DIRNAME=`dirname $0`
+BASENAME="${DIRNAME}/../"
+target=$1
+JAVA_CMD="java"
+RHINO_MAIN="org.mozilla.javascript.tools.shell.Main"
+DETROIT_CLASS="WEB-INF/classes/com/shutdown/Detroit.class"
+export CLASSPATH="${CLASSPATH}:${DETROIT_CLASS}"
+export INCLUDES="-f js/routes.js -f js/api.js -f tests/detroit_tester.js -f js/models/base.js"
+
+
+
+if [ -f "${BASENAME}/js/models/${target}.js" ];then
+   echo "Model already exists with name ${target}!"
+   echo "Exiting."
+   exit 1
+fi
+
+target_classname="$(tr '[:lower:]' '[:upper:]' <<< ${target:0:1})${target:1}"
+
+echo "
+$target_classname = function(name) {
+   // XXX that the collection associated with this model will be the second arg of Base.call
+   Base.call(this, ${target});
+   this._name = name;
+   this._id = undefined;
+};
+
+
+$target_classname.prototype = Object.create(Base.prototype);
+$target_classname.prototype.constructor = $target_classname;
+
+$target_classname.prototype.toJSON = function() {
+   return JSON.stringify(this.asJson());
+}
+
+$target_classname.prototype.asJson = function() {
+   var jsonObj = new Object();
+   jsonObj.name = this.getName();
+   jsonObj.timestamp = new Date();
+   return jsonObj;
+}
+
+$target_classname.prototype.asDocument = function() {
+   var doc = new org.bson.Document()
+      .append(\"name\", this.getName())
+      .append(\"timestamp\", org.mozilla.javascript.Context.jsToJava(new Date(), java.util.Date));
+   if ( this._id ) {
+      doc.append(\"_id\", this.getId());
+   }
+   return doc;
+}
+
+$target_classname.prototype.getName = function() {
+   return this._name;
+};
+
+$target_classname.prototype.getId = function() {
+   return this._id;
+}; " > ${BASENAME}/js/models/${target}.js
+
+# Now write the controller
+
+echo "
+// This should likely become an instance of a parent ApplicationController class
+//   akin to Rails.
+
+${target_classname}Controller = function() {
+   return this;
+}
+
+${target_classname}Controller.prototype.index = function(params) {
+   var results = new $target_classname().find();
+   return results.toString();
+}
+
+${target_classname}Controller.prototype.create = function(params) {
+   var ${target} = undefined;
+   var mongo = API.getMongo();
+   var writer = API.getWriter();
+   if ( params['name'] ) {
+      ${target} = new ${target_classname}(params['name']);
+      ${target}.save();
+   }
+   return ${target}.toJSON();
+}
+
+
+${target_classname}Controller = new ${target_classname}Controller(); " > ${BASENAME}/js/controllers/${target}_controller.js
+
+
+
+
+# Now write the tests.
+
+echo "
+// 
+// XXX Do not remove include lines.  These are used by detest to import models and other files.
+// 
+//include js/models/${target}.js
+
+var ${target} = new ${target_classname}(\"testobj\");
+
+
+tester.addTest( \"Can instantiate ${target}\", function() {
+   tester.assertTrue( ${target} !== undefined );
+});
+
+tester.addTest( \"Can save and reload ${target}\", function() {
+   ${target}.save();
+   tester.assertTrue( ${target}._id !== undefined );
+});" > ${BASENAME}/tests/models/${target}_test.js
+
+
+echo "
+// 
+// XXX Do not remove include lines.  These are used by detest to import models and other files.
+// 
+//include js/models/${target}.js
+//include js/controllers/${target}_controller.js
+
+
+tester.addTest( \"Can return ${target} index\", function() {
+   var array = ${target_classname}Controller.index();
+   tester.assertTrue( typeof array == \"string\" );
+}); " > ${BASENAME}/tests/controllers/${target}_controller_test.js
+
+
+
+
+
+
+

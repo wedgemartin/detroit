@@ -2,7 +2,7 @@
 
 
 The Detroit platform is a lightweight Model/Controller framework written in Java and JavaScript by way of the <a href='https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino'>Mozilla Rhino</a> Project. 
-This is not an MVC in that there is no mechanism for templating, though there may be a future addition.
+This is not an MVC in that there is no mechanism for templating; this is by design.
 
 Tests are handled by the 'detest' wrapper, which loads the Rhino libraries and the JS test files, models, and environment necessary to perform unit tests.
 
@@ -39,6 +39,14 @@ Printing summary:
 <p>
 
 Development and test cycles in Detroit are extremely fast; during development, hitting any API endpoint with the 'debug=true' flag set in the query params will cause all of the JS code to be re-evaluated on the fly. With the example JS files out of the box, the difference in API response time is 5-10ms per API call depending on the underlying hardware.
+<p>
+After sourcing the 'source_this' file, in order to get started quickly, you can simply type:
+<pre>
+   bash$  detonate somename
+</pre>
+This will create a model, controller, and associate tests for the class 'somename' which can then be edited as needed.
+
+
 
 
 
