@@ -14,7 +14,7 @@ To get started, you will need to install Tomcat.  By cloning this repository int
 
 <b>History</b>
 <p>
-Detroit started out as a 'fun' project at Badgeville to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  MongoDB, Rhino, and Apache Commons IO.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
+Detroit started out as a 'fun' project at <a href='http://badgeville.com'>Badgeville</a> to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  MongoDB, Rhino, and Apache Commons IO.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
 
 <p>
 <b>Testing</b>
