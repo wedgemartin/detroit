@@ -16,6 +16,22 @@ To get started, you will need to install Tomcat.  By cloning this repository int
 <p>
 Detroit started out as a 'fun' project at <a href='http://badgeville.com'>Badgeville</a> to see if we could build part or all of our 'next generation' platform on it.  It was never implemented in production, and sat on the shelf for long enough to have its components obsoleted.  The current incarnation is a complete rewrite using most of the same tools, namely:  MongoDB, Rhino, and Apache Commons IO.  The name 'Detroit' came from the fact that we were naming each revision of our API based upon cities in alphabetical order, and the next version ( after Cairo ) would've been a 'D' city.
 
+
+<p>
+<b>Development</b>
+<p>
+
+Development and test cycles in Detroit are extremely fast; during development, hitting any API endpoint with the 'debug=true' flag set in the query params will cause all of the JS code to be re-evaluated on the fly. With the example JS files out of the box, the difference in API response time is 5-10ms per API call depending on the underlying hardware.
+<p>
+After sourcing the 'source_this' file, in order to get started quickly, you can simply type:
+<pre>
+   bash$  detonate somename
+</pre>
+This will create a model, controller, and associate tests for the class 'somename' which can then be edited as needed.
+
+
+
+
 <p>
 <b>Testing</b>
 <p>
@@ -34,20 +50,6 @@ Printing summary:
    Failed: 0
 </pre>
 
-<p>
-<b>Development</b>
-<p>
-
-Development and test cycles in Detroit are extremely fast; during development, hitting any API endpoint with the 'debug=true' flag set in the query params will cause all of the JS code to be re-evaluated on the fly. With the example JS files out of the box, the difference in API response time is 5-10ms per API call depending on the underlying hardware.
-<p>
-After sourcing the 'source_this' file, in order to get started quickly, you can simply type:
-<pre>
-   bash$  detonate somename
-</pre>
-This will create a model, controller, and associate tests for the class 'somename' which can then be edited as needed.
-
-
-
 
 
 
@@ -55,7 +57,7 @@ This will create a model, controller, and associate tests for the class 'somenam
 
 <b>Performance</b>
 
-Extremely preliminary testing, but the following httperf results comparing NodeJS and Rhino/Detroit fetching the same data set:
+Extremely preliminary testing, but the following httperf results comparing NodeJS and Detroit fetching the same data set:
 
 
 <b>NodeJS</b>
