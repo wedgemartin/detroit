@@ -29,6 +29,21 @@ After sourcing the 'source_this' file, in order to get started quickly, you can 
 </pre>
 This will create a model, controller, and associated tests for the class 'somename' which can then be edited as needed.
 
+<p>
+<b>Routes</b>
+<p>
+Routes are configured as a global in the JavaScript scope and are made up of a hash of entries with regular expressions as keys.  Values can be a single hash, or an array of hashes, should the key match for multiple HTTP commands.
+<p>
+Example:
+
+<pre>
+
+routes = {
+  "/blog/posts": new Array( { command: "GET", method: "BlogController.index" }, { command: "POST", method: "BlogController.create" } ),
+  "/blog/posts/(.*)": { command: "GET", method: "BlogController.show", param_labels: [ 'blogpost_id' ] },
+}
+
+</pre>
 
 
 
