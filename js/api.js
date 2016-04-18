@@ -102,25 +102,45 @@ function handleRequest(uri, params, writer, command, post_data) {
       var controller = undefined;
       var regexp = new RegExp(route);
       var matches = regexp.exec(uri);
-      if ( matches && routes[route]['command'] == command ) {  // We have a matching route. Check will contain params if they are specified.
-         if ( param_hash['debug'] ) {
-            writer.println("  Have a match: Executing: " + routes[route]['method'] + "(" + JSON.stringify(param_hash) + ")\n");
-         }
-         if ( routes[route]['param_labels'] ) {
-            for ( var i = 0; i < matches.length; i++ ) {
-               param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
+      if ( matches ) {
+         if ( typeof routes[route] == "object" && routes[route].length > 1 ) {
+            for ( var i = 0; i < routes[route].length; i++ ) { 
+               if ( routes[route][i]['command'] == command ) {
+                  if ( param_hash['debug'] ) {
+                     writer.println("  Have a match: Executing: " + routes[route][i]['method'] + "(" + JSON.stringify(param_hash) + ")\n");
+                  }
+                  if ( routes[route][i]['param_labels'] ) {
+                      for ( var i = 0; i < matches.length; i++ ) {
+                           param_hash[routes[route][i]['param_labels'][i]] = matches[i + 1];
+                      }
+                  }
+                  if ( post_data ) {
+                      param_hash['post_data'] = post_data;
+                      param_hash['post_data_type'] = post_data_type;
+                  }
+                  output = eval(routes[route][i]['method'] + "(" + JSON.stringify(param_hash) + ");");
+                  return output.toString();
+               }
             }
+         } else {
+            if ( param_hash['debug'] ) {
+               writer.println("  Have a match: Executing: " + routes[route]['method'] + "(" + JSON.stringify(param_hash) + ")\n");
+            }
+            if ( routes[route]['param_labels'] ) {
+               for ( var i = 0; i < matches.length; i++ ) {
+                  param_hash[routes[route]['param_labels'][i]] = matches[i + 1];
+               }
+            }
+            if ( post_data ) {
+                param_hash['post_data'] = post_data;
+                param_hash['post_data_type'] = post_data_type;
+            }
+            output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
+            return output.toString();
          }
-         if ( post_data ) {
-             param_hash['post_data'] = post_data;
-             param_hash['post_data_type'] = post_data_type;
-         }
-         output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
       }
    }
-   return output.toString();
-}
-
+} 
 
 
 
