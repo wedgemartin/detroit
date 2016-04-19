@@ -35,6 +35,14 @@ DetroitAPI.prototype.getWriter = function() {
    return this._writer;
 }
 
+DetroitAPI.prototype.setRequest = function(r) {
+   this._request = r;
+}
+
+DetroitAPI.prototype.getRequest = function() {
+   return this._request;
+}
+
 DetroitAPI.prototype.parseParams = function(params) {
     var hashParams = {};
     var e,
@@ -58,6 +66,7 @@ function detroit_init(mongo, out) {
 }
 
 function handleRequest(request, response, writer, command, post_data) {
+   API.setRequest(request);
    var param_hash = {};
    var post_data_type = undefined;
    var uri = request.getRequestURI();
