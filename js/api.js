@@ -43,6 +43,14 @@ DetroitAPI.prototype.getRequest = function() {
    return this._request;
 }
 
+DetroitAPI.prototype.setResponse = function(r) {
+   this._response = r;
+}
+
+DetroitAPI.prototype.getResponse = function() {
+   return this._response;
+}
+
 DetroitAPI.prototype.parseParams = function(params) {
     var hashParams = {};
     var e,
