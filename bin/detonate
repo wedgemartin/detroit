@@ -19,6 +19,7 @@ fi
 
 target_classname="$(tr '[:lower:]' '[:upper:]' <<< ${target:0:1})${target:1}"
 
+echo "Creating model for ${target_classname}..."
 echo "
 $target_classname = function(name) {
    // XXX that the collection associated with this model will be the second arg of Base.call
@@ -62,6 +63,7 @@ $target_classname.prototype.getId = function() {
 
 # Now write the controller
 
+echo "Creating controller for ${target_classname}..."
 echo "
 // This should likely become an instance of a parent ApplicationController class
 //   akin to Rails.
@@ -94,6 +96,7 @@ ${target_classname}Controller = new ${target_classname}Controller(); " > ${BASEN
 
 # Now write the tests.
 
+echo "Creating model test for ${target_classname}..."
 echo "
 // 
 // XXX Do not remove include lines.  These are used by detest to import models and other files.
@@ -113,6 +116,7 @@ tester.addTest( \"Can save and reload ${target}\", function() {
 });" > ${BASENAME}/tests/models/${target}_test.js
 
 
+echo "Creating controller test for ${target_classname}..."
 echo "
 // 
 // XXX Do not remove include lines.  These are used by detest to import models and other files.
