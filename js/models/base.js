@@ -12,7 +12,10 @@ Base.prototype.find = function(query) {
   var docs = new Array();
   writer = API.getWriter();
   if ( query ) {
-     var iterable = this.collection.find(query);
+     var iterable = this.collection.find(query).iterator();
+     while ( iterable.hasNext() ) {
+         docs.push(iterable.next().toJson());
+     }
   } else {
      var iterable = this.collection.find().iterator();
      while ( iterable.hasNext() ) {
