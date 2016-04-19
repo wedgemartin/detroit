@@ -57,9 +57,11 @@ function detroit_init(mongo, out) {
    API.setWriter(out);
 }
 
-function handleRequest(uri, params, writer, command, post_data) {
+function handleRequest(request, response, writer, command, post_data) {
    var param_hash = {};
    var post_data_type = undefined;
+   var uri = request.getRequestURI();
+   var params = request.getQueryString();
    if ( command == "POST" && post_data ) {
       try {
          post_data = JSON.parse(post_data);
@@ -97,7 +99,7 @@ function handleRequest(uri, params, writer, command, post_data) {
    if ( param_hash['debug'] ) {
       writer.println("  Checking routes..");
    }
-   var output = undefined;
+   var out = response.getWriter();
    for ( var route in routes ) {
       var controller = undefined;
       var regexp = new RegExp(route);
@@ -118,8 +120,8 @@ function handleRequest(uri, params, writer, command, post_data) {
                       param_hash['post_data'] = post_data;
                       param_hash['post_data_type'] = post_data_type;
                   }
-                  output = eval(routes[route][i]['method'] + "(" + JSON.stringify(param_hash) + ");");
-                  return output.toString();
+                  var data = eval(routes[route][i]['method'] + "(" + JSON.stringify(param_hash) + ");");
+                  out.println(data.toString());
                }
             }
          } else {
@@ -135,8 +137,8 @@ function handleRequest(uri, params, writer, command, post_data) {
                 param_hash['post_data'] = post_data;
                 param_hash['post_data_type'] = post_data_type;
             }
-            output = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
-            return output.toString();
+            var data = eval(routes[route]['method'] + "(" + JSON.stringify(param_hash) + ");");
+            out.println(data.toString());
          }
       }
    }

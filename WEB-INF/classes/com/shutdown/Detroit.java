@@ -87,18 +87,18 @@ public class Detroit extends HttpServlet {
               } catch ( Exception e ) {
                  // Nihil
               }
-              Object functionArgs[] = { request.getRequestURI(), request.getQueryString(), System.out, request.getMethod(), data };
+              Object functionArgs[] = { request, response, System.out, request.getMethod(), data };
               org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)jsObj;
-              out.println(f.call(cx, scope, scope, functionArgs));
+              f.call(cx, scope, scope, functionArgs);
            } else if ( request.getMethod().equals("GET") ) {
               if ( request.getParameter("debug") != null ) {
                  System.out.println("Debug flag set to true. Rebuilding JS codebase.");
                  initDetroit();
               }
-              Object functionArgs[] = { request.getRequestURI(), request.getQueryString(), System.out, request.getMethod(), null };
+              Object functionArgs[] = { request, response, System.out, request.getMethod(), null };
               org.mozilla.javascript.Function f = (org.mozilla.javascript.Function)jsObj;
               try {
-                 out.println( f.call(cx, scope, scope, functionArgs));
+                 f.call(cx, scope, scope, functionArgs);
                  out.flush();
               } catch ( Exception e ) {
                  System.out.println("WARNING: Caught exception: " + e);
