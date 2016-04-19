@@ -32,7 +32,18 @@ DetroitAPI.prototype.setWriter = function(w) {
 }
 
 DetroitAPI.prototype.getWriter = function() {
-   return this._writer;
+   if ( ! this._writer ) {
+     // Fall back to print for the deacon
+     if ( typeof print == "function" ) {
+        var writerObject = new Object();
+        writerObject.println = function(data) {
+            print(data); 
+        }
+        return writerObject;
+     }
+   } else {
+     return this._writer;
+   }
 }
 
 DetroitAPI.prototype.setRequest = function(r) {
