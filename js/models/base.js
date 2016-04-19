@@ -34,9 +34,22 @@ Base.prototype.update = function() {
 
 Base.prototype.save = function() {
    var doc = this.asDocument();
-   var resultObj = this.collection.updateOne( doc , new org.bson.Document("$set", doc), (new com.mongodb.client.model.UpdateOptions()).upsert(true));
-   if ( resultObj.getUpsertedId() ) {
-      this._id = resultObj.getUpsertedId();
+   if ( ( typeof this.getId == "function" && this.getId() ) || this._id ) {
+      var this_id = undefined;
+      if ( typeof this.getId == "function" ) { 
+         this_id = this.getId();
+      } else {
+         this_id = this._id;
+      }
+      var resultObj = this.collection.updateOne( new org.bson.Document("_id", this_id), new org.bson.Document("$set", doc), (new com.mongodb.client.model.UpdateOptions()).upsert(true));
+      if ( resultObj.getUpsertedId() ) {
+         this._id = resultObj.getUpsertedId();
+      }
+   } else {
+      var resultObj = this.collection.updateOne( doc , new org.bson.Document("$set", doc), (new com.mongodb.client.model.UpdateOptions()).upsert(true));
+      if ( resultObj.getUpsertedId() ) {
+         this._id = resultObj.getUpsertedId();
+      }
    }
 };
 
